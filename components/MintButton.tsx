@@ -65,7 +65,7 @@ export default function MintButton() {
         };
 
         fetchData();
-    }, [address, sdk]);
+    }, []);
 
 
     async function mint() {
@@ -73,12 +73,9 @@ export default function MintButton() {
             setMinting(true)
             try {
                 const contract = await sdk?.getContract("0x5DAf5C61cb6FC86aBBaf3129040e74f8011fbb2D", "nft-drop")
-                if (userPrice === 0) {
-                    const txResult = await contract?.erc721.claim(freeClaims);
 
-                } else {
-                    const txResult = await contract?.erc721.claim(amount);
-                }
+                    const txResult = await contract?.erc721.claim(freeClaims >= 1 ? freeClaims : amount);
+                
                 setMinting(false)
             } catch (error) {
                 console.error(error)
